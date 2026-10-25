@@ -1,39 +1,25 @@
 <x-guest-layout>
+    <h1 class="text-3xl font-bold tracking-tight playfair mb-4">Schimbă parola</h1>
+    <p class="text-gray-400 text-sm mb-8">Dacă aveți acces la e-mailul asociat contului, veți primi un link de resetare a parolei înainte de a continua. Intrați emailul dumneavoastră pentru a vedea link-ul.</p>
+
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
+        @method('put')
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="mb-6">
+            <label for="password" class="block font-medium text-gray-200 mb-2">Noua parolă</label>
+            <input id="password" name="password" type="password" class="block w-full mt-1 bg-gray-800 text-white text-base border-gray-600 rounded-xl px-4 py-4 focus:outline-none focus:border-orange-500 focus:ring-orange-500 shadow-md placeholder:text-gray-400" required minlength="8" autocomplete="new-password">
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="mb-6">
+            <label for="password_confirmation" class="block font-medium text-gray-200 mb-2">Confirmare parolă</label>
+            <input id="password_confirmation" name="password_confirmation" type="password" class="block w-full mt-1 bg-gray-800 text-white text-base border-gray-600 rounded-xl px-4 py-4 focus:outline-none focus:border-orange-500 focus:ring-orange-500 shadow-md placeholder:text-gray-400" required autocomplete="new-password">
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
+        <div class="flex items-center justify-end px-2 pt-4">
+            <button type="submit" class="inline-flex justify-center items-center gap-2 px-8 py-3 bg-orange-600 hover:bg-orange-500 text-white font-semibold rounded-full transition-all duration-200 shadow-lg shadow-orange-600/30">
+                Schimbă parola
+            </button>
         </div>
     </form>
 </x-guest-layout>
