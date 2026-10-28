@@ -1,21 +1,61 @@
 window.addEventListener('load', function() {
-  new Swiper('.mySwiper', {
-    effect: 'coverflow',
+  
+  var swiper = new Swiper(".mySwiper", {
+    effect: "coverflow",
     grabCursor: true,
     centeredSlides: true,
-    centeredSlidesBounds: true,
-    slidesPerView: 'auto',
+    slidesPerView: "auto",
     loop: true,
-    initialSlide: 3,
-    speed: 300,
+    
+    // Dezactivăm opțiunea nativă instabilă pentru a folosi logica manuală de click de jos
+    slideToClickedSlide: false, 
+    
+    // Forțează rotunjirea pixelilor la numere întregi (elimină spațiile albe asimetrice)
+    roundLengths: true,
+    
+    watchSlidesProgress: true,
+    observer: true,
+    observeParents: true,
+    resizeObserver: true,
+
     coverflowEffect: {
-      rotate: 0,
-      stretch: -10,
-      depth: 100,
+      rotate: 0,            /* Rămân plate (drepte) */
+      stretch: -20,         /* Spațiul de suprapunere dintre carduri */
+      depth: 160,           /* Distanța de micșorare pentru cele laterale */
       modifier: 1,
-      slideShadows: false,
+      slideShadows: false,  
     },
-    pagination: { el: '.swiper-pagination', clickable: true },
-    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    
+    // SOLUȚIA DE CENTRARE PERFECTĂ:
+    on: {
+      // A. Rezolvă click-ul manual pe poze
+      click: function(swiper, event) {
+        const clickedSlide = event.target.closest('.swiper-slide');
+        if (clickedSlide) {
+          const slideIndex = parseInt(clickedSlide.getAttribute('data-swiper-slide-index'), 10);
+          swiper.slideToLoop(slideIndex);
+        }
+      },
+      // B. Rezolvă decalajul din săgeți: De fiecare dată când o animație se termină,
+      // forțăm o aliniere matematică la milimetru pentru a elimina abaterile din coverflow.
+      transitionEnd: function(swiper) {
+        swiper.updateProgress();
+        swiper.updateActiveIndex();
+      }
+    }
   });
+
+  // Calibrare inițială la deschidere pagină
+  setTimeout(function() {
+    swiper.update();
+  }, 150);
+
 });

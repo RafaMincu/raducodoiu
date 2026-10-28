@@ -1,44 +1,22 @@
 /* Containerul principal fix - Izolează complet caruselul de restul site-ului */
 .carousel-container {
   width: 100%;
-  max-width: 1000px;
-  height: 480px;
+  max-width: 1000px; 
+  height: 480px;      
   position: relative;
   margin: 0 auto;
-  overflow: hidden;
+  overflow: hidden;   
   border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-/* === 3D Carousel CSS (adaptat din repo) === */
-.slider-3d {
-  position: relative;
-  width: 220px;
-  height: 280px;
-  transform-style: preserve-3d;
-  animation: autoRun 30s linear infinite;
-}
-
-@keyframes autoRun {
-  from { transform: perspective(1000px) rotateX(-10deg) rotateY(0deg); }
-  to   { transform: perspective(1000px) rotateX(-10deg) rotateY(360deg); }
-}
-
-.slider-3d .item {
-  position: absolute;
-  inset: 0;
-  transform: rotateY(calc(var(--position) * (360deg / var(--qty)) - (360deg / var(--qty)))) translateZ(350px);
-}
-
-.slider-3d .item img {
+.mySwiper {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  border: 4px solid #fff;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.swiper-wrapper {
+  display: flex;
+  align-items: center; /* Aliniază toate pozele perfect pe centrul vertical */
 }
 
 /* Stilul pozelor standard (laterale) */
