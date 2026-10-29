@@ -1,61 +1,61 @@
-window.addEventListener('load', function() {
-  
-  var swiper = new Swiper(".mySwiper", {
-    effect: "coverflow",
+document.addEventListener('DOMContentLoaded', function () {
+  const swiper = new Swiper('.mySwiper', {
+    effect: 'coverflow',
     grabCursor: true,
     centeredSlides: true,
-    slidesPerView: "auto",
     loop: true,
-    
-    // Dezactivăm opțiunea nativă instabilă pentru a folosi logica manuală de click de jos
-    slideToClickedSlide: false, 
-    
-    // Forțează rotunjirea pixelilor la numere întregi (elimină spațiile albe asimetrice)
+    loopPreventsSliding: false,
+    slidesPerView: 'auto',
+    slidesPerGroup: 1,
     roundLengths: true,
-    
-    watchSlidesProgress: true,
-    observer: true,
-    observeParents: true,
-    resizeObserver: true,
-
-    coverflowEffect: {
-      rotate: 0,            /* Rămân plate (drepte) */
-      stretch: -20,         /* Spațiul de suprapunere dintre carduri */
-      depth: 160,           /* Distanța de micșorare pentru cele laterale */
-      modifier: 1,
-      slideShadows: false,  
+    spaceBetween: 18,
+    speed: 700,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
     },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
+    coverflowEffect: {
+      rotate: 0,
+      stretch: -18,
+      depth: 180,
+      modifier: 1.2,
+      slideShadows: false,
     },
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
     },
-    
-    // SOLUȚIA DE CENTRARE PERFECTĂ:
-    on: {
-      // A. Rezolvă click-ul manual pe poze
-      click: function(swiper, event) {
-        const clickedSlide = event.target.closest('.swiper-slide');
-        if (clickedSlide) {
-          const slideIndex = parseInt(clickedSlide.getAttribute('data-swiper-slide-index'), 10);
-          swiper.slideToLoop(slideIndex);
-        }
-      },
-      // B. Rezolvă decalajul din săgeți: De fiecare dată când o animație se termină,
-      // forțăm o aliniere matematică la milimetru pentru a elimina abaterile din coverflow.
-      transitionEnd: function(swiper) {
-        swiper.updateProgress();
-        swiper.updateActiveIndex();
-      }
-    }
   });
 
-  // Calibrare inițială la deschidere pagină
-  setTimeout(function() {
-    swiper.update();
-  }, 150);
+  const pagination = document.querySelector('.mySwiper .swiper-pagination');
+  const gallerySize = swiper.slides.length / 2;
 
+  for (let index = 0; index < gallerySize; index++) {
+    const bullet = document.createElement('button');
+    bullet.type = 'button';
+    bullet.className = 'swiper-pagination-bullet';
+    bullet.setAttribute('aria-label', `Go to slide ${index + 1}`);
+    bullet.addEventListener('click', function () {
+      swiper.slideToLoop(index);
+    });
+    pagination.appendChild(bullet);
+  }
+
+  function updatePagination() {
+    const activeIndex = swiper.realIndex % gallerySize;
+
+    pagination.querySelectorAll('.swiper-pagination-bullet').forEach(function (bullet, index) {
+      const isActive = index === activeIndex;
+      bullet.classList.toggle('swiper-pagination-bullet-active', isActive);
+      if (isActive) {
+        bullet.setAttribute('aria-current', 'true');
+      } else {
+        bullet.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  swiper.on('realIndexChange', updatePagination);
+  updatePagination();
 });
