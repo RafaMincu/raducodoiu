@@ -1,28 +1,94 @@
-window.addEventListener('load', function() {
+document.addEventListener('DOMContentLoaded', function () {
+  const audio = document.getElementById('background-audio');
+  const toggle = document.getElementById('background-audio-toggle');
+  const seek = document.getElementById('background-audio-seek');
+  const playIcon = document.getElementById('background-audio-play-icon');
+  const pauseIcon = document.getElementById('background-audio-pause-icon');
+  const status = document.getElementById('background-audio-status');
+  const preferenceKey = 'background-audio-enabled';
 
-  document.addEventListener('click', function startAudio() {
-      const audio = document.getElementById('background-audio');
-      if (!audio) return;
+  if (!audio || !toggle || !seek || !playIcon || !pauseIcon || !status) return;
 
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const audioCtx = new AudioContext();
-      const source = audioCtx.createMediaElementSource(audio);
-      source.connect(audioCtx.destination);
+  const savedPreference = localStorage.getItem(preferenceKey);
+  const shouldStartOnInteraction = savedPreference !== 'false';
 
-      audio.play().then(() => {
-          console.log("Audio a pornit cu succes!");
-          document.removeEventListener('click', startAudio);
+  function updatePlaybackState(isPlaying) {
+    toggle.setAttribute('aria-pressed', String(isPlaying));
+    toggle.setAttribute('aria-label', isPlaying ? 'Pune melodia pe pauză' : 'Redă melodia');
+    playIcon.classList.toggle('hidden', isPlaying);
+    pauseIcon.classList.toggle('hidden', !isPlaying);
+  }
 
-          audio.addEventListener('ended', function() {
-              console.log("Muzica s-a terminat. Oprim totul definitiv.");
-              if (audioCtx.state !== 'closed') {
-                  audioCtx.close();
-              }
-          });
+  function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, '0');
 
-      }).catch(error => {
-          console.log("Sistemul audio a fost blocat de browser:", error);
-      });
-  }, { once: true });
+    return `${minutes}:${remainingSeconds}`;
+  }
 
+  function updateSeek() {
+    if (!Number.isFinite(audio.duration)) return;
+
+    const progress = audio.duration > 0 ? (audio.currentTime / audio.duration) * 100 : 0;
+    seek.max = String(audio.duration);
+    seek.value = String(audio.currentTime);
+    seek.disabled = audio.duration <= 0;
+    seek.style.setProperty('--audio-progress', `${progress}%`);
+    seek.setAttribute('aria-valuetext', `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`);
+  }
+
+  async function playAudio() {
+    try {
+      await audio.play();
+      localStorage.setItem(preferenceKey, 'true');
+      updatePlaybackState(true);
+      status.textContent = 'Melodia a pornit.';
+    } catch (error) {
+      updatePlaybackState(false);
+      status.textContent = 'Melodia nu a putut porni.';
+      console.error('Nu s-a putut porni melodia:', error);
+    }
+  }
+
+  function startAudioOnFirstClick() {
+    document.removeEventListener('click', startAudioOnFirstClick);
+    playAudio();
+  }
+
+  toggle.addEventListener('click', function () {
+    document.removeEventListener('click', startAudioOnFirstClick);
+
+    if (audio.paused) {
+      playAudio();
+      return;
+    }
+
+    audio.pause();
+    localStorage.setItem(preferenceKey, 'false');
+    updatePlaybackState(false);
+    status.textContent = 'Melodia este pe pauză.';
+  });
+
+  seek.addEventListener('input', function () {
+    audio.currentTime = Number(seek.value);
+    updateSeek();
+  });
+
+  audio.addEventListener('loadedmetadata', updateSeek);
+  audio.addEventListener('durationchange', updateSeek);
+  audio.addEventListener('timeupdate', updateSeek);
+  audio.addEventListener('play', function () {
+    updatePlaybackState(true);
+  });
+
+  audio.addEventListener('ended', function () {
+    updatePlaybackState(false);
+    status.textContent = 'Melodia s-a terminat.';
+  });
+
+  if (shouldStartOnInteraction) {
+    document.addEventListener('click', startAudioOnFirstClick);
+  }
+
+  updateSeek();
 });

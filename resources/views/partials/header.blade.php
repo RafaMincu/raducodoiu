@@ -1,11 +1,48 @@
 <header class="fixed top-0 left-0 right-0 z-50 bg-gray-950/90 backdrop-blur-xl border-b border-white/10">
   <!-- Folosim items-center și justify-center pentru a aduna totul la un loc, pe mijlocul ecranului -->
-  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-center gap-12">
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-center gap-6">
     
     <!-- Logo-ul stă în stânga meniului, dar adus spre centru -->
-    <a href="{{ url('/') }}" class="text-2xl font-black tracking-tighter text-white shrink-0">
-      Coach<span class="text-orange-500">Codoiu</span>
-    </a>
+    <div class="flex shrink-0 flex-col items-center">
+      <div class="flex items-center gap-1">
+        <a href="{{ url('/') }}" class="text-2xl font-black tracking-tighter text-white">
+          Coach<span class="text-orange-500">Codoiu</span>
+        </a>
+      @if (request()->routeIs('home'))
+        <button hidden
+          id="background-audio-toggle"
+          type="button"
+          aria-controls="background-audio"
+          aria-pressed="false"
+          aria-label="Redă melodia"
+          class="rounded-full p-1.5 text-gray-400 opacity-50 transition duration-200 hover:bg-gray-800 hover:text-white hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
+        >
+          <svg id="background-audio-play-icon" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"
+            aria-hidden="true">
+            <path d="M8 5.5a1 1 0 0 1 1.5-.86l10 6a1 1 0 0 1 0 1.72l-10 6A1 1 0 0 1 8 17.5v-12Z" />
+          </svg>
+          <svg id="background-audio-pause-icon" class="hidden h-4 w-4" viewBox="0 0 24 24" fill="currentColor"
+            aria-hidden="true">
+            <path d="M7 5a2 2 0 0 1 2 2v10a2 2 0 1 1-4 0V7a2 2 0 0 1 2-2Zm10 0a2 2 0 0 1 2 2v10a2 2 0 1 1-4 0V7a2 2 0 0 1 2-2Z" />
+          </svg>
+        </button>
+      @endif
+      </div>
+      @if (request()->routeIs('home'))
+        <input hidden
+          id="background-audio-seek"
+          class="audio-seek w-full"
+          type="range"
+          min="0"
+          max="0"
+          value="0"
+          step="0.1"
+          aria-label="Poziția melodiei"
+          aria-controls="background-audio"
+          disabled
+        >
+      @endif
+    </div>
 
     <!-- Linia fină despărțitoare (opțională) - oferă un aer premium, de revistă -->
     <div class="hidden md:block h-6 w-px bg-white/10"></div>
