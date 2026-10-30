@@ -6,10 +6,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const pauseIcon = document.getElementById('background-audio-pause-icon');
   const status = document.getElementById('background-audio-status');
   const preferenceKey = 'background-audio-enabled';
+  const positionKey = 'background-audio-position';
 
   if (!audio || !toggle || !seek || !playIcon || !pauseIcon || !status) return;
 
   const savedPreference = localStorage.getItem(preferenceKey);
+  const savedPosition = Number.parseFloat(localStorage.getItem(positionKey) || '0');
   const shouldStartOnInteraction = savedPreference !== 'false';
 
   function updatePlaybackState(isPlaying) {
@@ -35,6 +37,22 @@ document.addEventListener('DOMContentLoaded', function () {
     seek.disabled = audio.duration <= 0;
     seek.style.setProperty('--audio-progress', `${progress}%`);
     seek.setAttribute('aria-valuetext', `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`);
+  }
+
+  function savePlaybackPosition() {
+    if (Number.isFinite(audio.currentTime)) {
+      localStorage.setItem(positionKey, String(audio.currentTime));
+    }
+  }
+
+  function restorePlaybackPosition() {
+    if (!Number.isFinite(audio.duration)) return;
+
+    if (Number.isFinite(savedPosition) && savedPosition > 0) {
+      audio.currentTime = Math.min(savedPosition, audio.duration);
+    }
+
+    updateSeek();
   }
 
   async function playAudio() {
@@ -64,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     audio.pause();
+    savePlaybackPosition();
     localStorage.setItem(preferenceKey, 'false');
     updatePlaybackState(false);
     status.textContent = 'Melodia este pe pauză.';
@@ -71,20 +90,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
   seek.addEventListener('input', function () {
     audio.currentTime = Number(seek.value);
+    savePlaybackPosition();
     updateSeek();
   });
 
-  audio.addEventListener('loadedmetadata', updateSeek);
+  audio.addEventListener('loadedmetadata', restorePlaybackPosition);
   audio.addEventListener('durationchange', updateSeek);
-  audio.addEventListener('timeupdate', updateSeek);
+  audio.addEventListener('timeupdate', function () {
+    updateSeek();
+    savePlaybackPosition();
+  });
+  audio.addEventListener('pause', savePlaybackPosition);
   audio.addEventListener('play', function () {
     updatePlaybackState(true);
   });
 
   audio.addEventListener('ended', function () {
+    localStorage.setItem(positionKey, '0');
     updatePlaybackState(false);
     status.textContent = 'Melodia s-a terminat.';
   });
+
+  window.addEventListener('pagehide', savePlaybackPosition);
 
   if (shouldStartOnInteraction) {
     document.addEventListener('click', startAudioOnFirstClick);

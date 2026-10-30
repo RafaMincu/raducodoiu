@@ -9,7 +9,7 @@
           Coach<span class="text-orange-500">Codoiu</span>
         </a>
       @if (request()->routeIs('home'))
-        <button hidden
+        <button 
           id="background-audio-toggle"
           type="button"
           aria-controls="background-audio"
@@ -29,7 +29,7 @@
       @endif
       </div>
       @if (request()->routeIs('home'))
-        <input hidden
+        <input 
           id="background-audio-seek"
           class="audio-seek w-full"
           type="range"

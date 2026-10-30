@@ -126,7 +126,7 @@
                         <li>O sesiune gratuită de încercare - 60 de minute</li>
                         <li>Ne vom concentra pe ceea ce ai nevoie</li>
                         <li>Hai să ne cunoaștem 💪</li>
-                    </ul><a href="#"
+                    </ul><a href="#contact"
                         class="block w-full px-8 py-3 bg-orange-600 text-white font-medium rounded-full hover:bg-orange-500 text-center">Alege</a>
                 </article>
                 <article
@@ -137,7 +137,7 @@
                         <li>5 antrenamente / săptămână</li>
                         <li>Planuri personalizate</li>
                         <li>Consult nutriție lunar</li>
-                    </ul><a href="#"
+                    </ul><a href="#contact"
                         class="block w-full px-8 py-3 bg-orange-600 text-white font-medium rounded-full hover:bg-orange-500 text-center">Alege</a>
                 </article>
                 <article class="p-8 bg-gray-800 rounded-3xl border border-gray-700 hover:border-orange-500 transition">
@@ -147,7 +147,7 @@
                         <li>Antrenamente nelimitate</li>
                         <li>1:1 cu antrenorul</li>
                         <li>Plan nutriție personalizat</li>
-                    </ul><a href="#"
+                    </ul><a href="#contact"
                         class="block w-full px-8 py-3 bg-orange-600 text-white font-medium rounded-full hover:bg-orange-500 text-center">Alege</a>
                 </article>
             </div>
@@ -166,24 +166,17 @@
             </div>
 
             <div class="overflow-hidden rounded-3xl border border-white/10">
-                <iframe
-                    class="h-[360px] w-full md:h-[460px]"
+                <iframe class="h-[360px] w-full md:h-[460px]"
                     src="https://maps.google.com/maps?q=18GYM%2C%20Strada%20Taberei%204%2C%20400512%20Cluj-Napoca&t=&z=16&ie=UTF8&iwloc=&output=embed"
                     title="Hartă Google - 18GYM, Strada Taberei 4, Cluj-Napoca"
-                    aria-label="Hartă interactivă cu locația 18GYM din Cluj-Napoca"
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    allowfullscreen
-                ></iframe>
+                    aria-label="Hartă interactivă cu locația 18GYM din Cluj-Napoca" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
             </div>
 
             <div class="mt-6 text-center">
-                <a
-                    href="https://www.google.com/maps/dir/?api=1&destination=18GYM%2C%20Strada%20Taberei%204%2C%20400512%20Cluj-Napoca"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center rounded-full border border-orange-500/50 px-6 py-3 text-sm font-semibold text-orange-400 transition-colors hover:border-orange-400 hover:bg-orange-500/10 hover:text-orange-300"
-                >
+                <a href="https://www.google.com/maps/dir/?api=1&destination=18GYM%2C%20Strada%20Taberei%204%2C%20400512%20Cluj-Napoca"
+                    target="_blank" rel="noopener noreferrer"
+                    class="inline-flex items-center rounded-full border border-orange-500/50 px-6 py-3 text-sm font-semibold text-orange-400 transition-colors hover:border-orange-400 hover:bg-orange-500/10 hover:text-orange-300">
                     Deschide indicațiile în Google Maps
                 </a>
             </div>
@@ -191,7 +184,7 @@
     </section>
 
     {{-- ═══════════════ CARUSEL MODERN ═══════════════ --}}
-    <section hidden class="bg-gray-950 py-24" aria-labelledby="galerie-titlu">
+    <section class="bg-gray-950 py-24" aria-labelledby="galerie-titlu">
         <div class="mx-auto max-w-6xl px-6">
             <header class="mb-12 space-y-3 text-center">
                 <p class="text-xs font-semibold uppercase tracking-[0.22em] text-orange-500">
@@ -233,12 +226,12 @@
     {{-- <!-- {{-- ═══════════════ CONTACT ═══════════════ --}}
     <section id="contact" class="py-24 bg-gray-950">
         <div class="max-w-2xl mx-auto px-6">
-            <div hidden>
+            <div>
                 <div class="text-center mb-12">
                     <h2 class="text-4xl font-bold tracking-tight playfair mb-4">Hai să începem</h2>
                     <p class="text-gray-400">Scrie-mi și îți trimit un plan gratuit.</p>
                 </div>
-                <form class="max-w-md mx-auto space-y-4"
+                <form hidden class="max-w-md mx-auto space-y-4"
                     onsubmit="event.preventDefault(); this.innerHTML='<p class=\'text-center text-orange-400 font-medium py-6\'>Mulțumesc! Te contactez curând.</p>';">
                     <input type="text" placeholder="Numele tău" required
                         class="w-full px-6 py-4 bg-gray-800 text-white rounded-xl text-sm border border-gray-700 focus:outline-none focus:border-orange-500 transition-colors">
@@ -249,8 +242,19 @@
                         cererea</button>
                 </form>
             </div>
-            <div class="hidden flex items-center justify-center gap-6 mt-10">
-                <a href="https://wa.me/+40742604057" aria-label="WhatsApp"
+            <div class=" flex items-center justify-center gap-6 mt-10">
+                <!-- Buton Apel Telefonic Direct (Adăugat la începutul listei pentru vizibilitate maximă) -->
+                <a href="tel:+40742604057" aria-label="Sunați acum"
+                    class="w-12 h-12 rounded-full bg-amber-600/20 border border-amber-500/30 flex items-center justify-center text-amber-400 hover:bg-amber-600 hover:text-white transition-all duration-300 shadow-lg shadow-amber-500/5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                </a>
+                <a href="https://wa.me/+40742604057?text=Salut, Coach Codoiu! Am văzut activitatea ta și aș dori să aflu mai multe detalii despre cum putem colabora. Când ai disponibilitate pentru o scurtă discuție?"
+                    aria-label="WhatsApp"
                     class="w-12 h-12 rounded-full bg-green-600/20 border border-green-500/30 flex items-center justify-center text-green-400 hover:bg-green-600 hover:text-white transition-all duration-300"><svg
                         xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
