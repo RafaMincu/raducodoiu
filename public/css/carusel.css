@@ -2,13 +2,17 @@
 .carousel-shell {
   max-width: 1120px;
   margin: 0 auto;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .mySwiper {
   position: relative;
   width: 100%;
+  max-width: 100%;
   height: 440px;
   padding: 20px 0 50px;
+  overflow: hidden;
 }
 
 .mySwiper .swiper-wrapper {
@@ -94,9 +98,8 @@
 
 @media (max-width: 640px) {
   .carousel-shell {
-    width: calc(100% + 48px);
-    margin-left: -24px;
-    margin-right: -24px;
+    width: 100%;
+    margin-inline: auto;
   }
 
   .mySwiper {
