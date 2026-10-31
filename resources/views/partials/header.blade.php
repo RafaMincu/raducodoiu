@@ -62,12 +62,14 @@
         <!-- Mobile toggle -->
         <div class="md:hidden">
             <input type="checkbox" id="menu-toggle" class="peer hidden">
-            <label for="menu-toggle" class="cursor-pointer text-white p-2 block" aria-label="Meniu">
+            <label for="menu-toggle" class="relative z-50 cursor-pointer text-white p-2 block" aria-label="Meniu">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </label>
+            <label for="menu-toggle" aria-hidden="true"
+                class="absolute top-20 left-0 right-0 z-40 hidden h-screen peer-checked:block"></label>
             <div
                 class="peer-checked:block hidden absolute top-20 left-0 right-0 bg-gray-950/95 backdrop-blur-xl border-b border-white/10 z-50 px-6 py-8 shadow-2xl">
                 <nav class="flex flex-col gap-4 text-lg font-medium text-gray-200">
